@@ -1,10 +1,9 @@
-function AI_PlayerMobInteraction(Player, Mob)
-  LOG("[AI] Interaction(" .. Mob:GetUniqueID() .. "," .. Player:GetUniqueID() .. ")")
-  return true
-end
+
 
 
 function AI_OnWorldTick(World, TickCount)
+
+
 
   local checkThinkStore = function(Mob)
     -- Check to see if the cEntity is a cMonster
@@ -14,9 +13,9 @@ function AI_OnWorldTick(World, TickCount)
   end
 
   local actionThinkStore = function(Mob)
-    local mobData = AI_Mob[Mob:GetUniqueID()] 
-    LOG("[AI] debug " .. mobData['target'] .. "," .. mobData['uuid'] .. "@" .. mobData['distance']) 
-    Mob:GetWorld():DoWithPlayerByUUID(mobData['target'], AI_PlayerMobInteraction, Mob) 
+    local m = AI_Mob[Mob:GetUniqueID()] 
+    --LOG("[AI] debug " .. m['target'] .. " , " .. m['uuid'] .. " @ " .. m['distance']) 
+    Mob:GetWorld():DoWithPlayerByUUID(m['target'], PlayerMobInteraction, Mob) 
     return true
   end
 
@@ -24,7 +23,7 @@ function AI_OnWorldTick(World, TickCount)
   AI_Lock = AI_Lock + 1
 
   -- Keep the load low
-  if (AI_Lock > 20 and World ~= AI_World) then
+  if (AI_Lock > 10 and World ~= AI_World) then
     AI_Lock = 0
     AI_World = World
     -- Update all the mob info

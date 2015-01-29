@@ -8,7 +8,7 @@ function Handle_AI_Command(Split, Player)
   if (Split[2] == "list") then
     Player:SendMessage("list/")
     for uuid, mob in pairs(AI_Mob) do
-      if (mob['target'] == Player:GetUniqueID()) then
+      if (mob['target'] == Player:GetUUID()) then
         Player:SendMessage("[AI] " .. mob['type'] .. " @ " .. mob['distance'])
       end      
     end
