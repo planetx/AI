@@ -19,7 +19,7 @@ function pDump (tbl, Player, indent)
     formatting = string.rep("  ", indent) .. k .. ": "
     if type(v) == "table" then
       Player:SendMessage(formatting)
-      tprint(v, indent+1)
+      pDump(v, Player, indent+1)
     elseif type(v) == 'boolean' then
       Player:SendMessage(formatting .. tostring(v))      
     else
