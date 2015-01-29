@@ -1,8 +1,8 @@
-function actThinkStore(Mob)
+function updateThinkStore(Mob)
 
   local MobPlayerRelationship = function(Player, Mob)
     -- Get the unique ID
-    uuid = Mob:GetUniqueID()
+    local uuid = Mob:GetUniqueID()
 
     -- Get the current data
     local m = AI_Mob[uuid]
@@ -19,7 +19,7 @@ function actThinkStore(Mob)
     if (m["last"] == nil) then
       m["last"] = os.clock()
     end
-    m['mob']     = Mob
+    
     -- Update Mob Position
     local c = {}
     c["x"]       = Mob:GetPosX()
@@ -32,7 +32,6 @@ function actThinkStore(Mob)
       + math.pow(Mob:GetPosY() - Player:GetPosY(), 2) 
       + math.pow(Mob:GetPosZ() - Player:GetPosZ(), 2)
     )
-
     local old_distance = m['distance']
 
     if (old_distance == nil) then
@@ -42,16 +41,14 @@ function actThinkStore(Mob)
     if (distance < 25) then
       if (distance < old_distance) then
         m['distance'] = distance
-        m['target'] = Player
+        m['target'] = Player:GetUniqueID()
       end
-      --
-      -- Store the results
-      --
       AI_Mob[uuid] = m
-    elseif (Player == m['target']) then
+    elseif (Player:GetUniqueID() == m['target']) then
       m['distance'] = distance
       AI_Mob[uuid] = m
     else
+      --LOG("[AI] deleting " .. uuid)
       AI_Mob[uuid] = nil
     end
     return false

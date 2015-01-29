@@ -1,16 +1,15 @@
 function Handle_AI_Command(Split, Player)
-  if (#Split ~= 2) then
+  if (#Split < 2) then
     Player:SendMessage("Usage: /ai [command] [arguments]")
+    Player:SendMessage("Usage: /ai list     ~ List interactive mobs for Player")
     return true
   end
 
   if (Split[2] == "list") then
     Player:SendMessage("list/")
     for uuid, mob in pairs(AI_Mob) do
-      if (mob['target'] == Player and mob['mob']:IsMob()) then
+      if (mob['target'] == Player:GetUniqueID()) then
         Player:SendMessage("[AI] " .. mob['type'] .. " @ " .. mob['distance'])
-      else
-        AI_Mob[uuid] = nil
       end      
     end
     Player:SendMessage("/list")
@@ -20,4 +19,3 @@ function Handle_AI_Command(Split, Player)
 
   return true
 end
-
